@@ -114,20 +114,29 @@ Add `myapp.wsgi`
 ```
 touch /var/www/html/myapp.wsgi
 ```
-Edit `/etc/apache2/sites-enabled/000-default.conf` and add `WSGIScriptAlias / /var/www/html/myapp.wsgi`
+Edit `/etc/apache2/sites-enabled/000-default.conf` and add
+```
+WSGIScriptAlias / /var/www/html/myapp.wsgi
+```
+
 Restart Apache
 
 ## Install and configure PostgreSQL
  1. Install PostgreSQL
  1. Login `psql` as `postgres`
  1. Add user `catalog` by `CREATE USER catalog WITH PASSWORD 'somepassword';`
- 1. Create the `itemcatalog` database owned by `catalog` user: # CREATE DATABASE itemcatalog WITH OWNER catalog;.
+ 1. Create the `itemcatalog` database owned by `catalog` user: `CREATE DATABASE itemcatalog WITH OWNER catalog;`.
  1. Connect to the database: `\c itemcatalog`.
  1. Revoke all rights from public: `REVOKE ALL ON SCHEMA public FROM public;`.
  1. Lock down the permissions to only let catalog role perform CRUD action on tables: `GRANT ALL ON SCHEMA public TO catalog;`.
  1. Log out from PostgreSQL: `\q`. Then return to the grader user: $ exit.
- 1. Inside the Flask application, connection string is changed to `engine = create_engine('postgresql://catalog:somepassword@localhost/itemcatalog')`
- 1. To prevent remote connection, we need to edit `sudo nano /etc/postgresql/9.1/main/pg_hba.conf` and ensure below lines are not commented out.
+
+Inside the Flask application, connection string is changed to 
+```
+engine = create_engine('postgresql://catalog:somepassword@localhost/itemcatalog')
+```
+
+To prevent remote connection, we need to edit `sudo nano /etc/postgresql/9.1/main/pg_hba.conf` and ensure below lines are not commented out.
  ```
 local   all             postgres                                peer
 local   all             all                                     peer
