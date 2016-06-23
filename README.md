@@ -36,6 +36,12 @@ sudo apt-get update
 sudo apt-get upgrade
 ```
 
+### Auto upgrade packages using unattended-upgrades
+Enabled automatic upgrade by
+```
+sudo dpkg-reconfigure --priority=low unattended-upgrades
+```
+
 ### Create new user `grader`
 ```
 adduser grader
