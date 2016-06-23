@@ -119,8 +119,6 @@ Edit `/etc/apache2/sites-enabled/000-default.conf` and add
 WSGIScriptAlias / /var/www/html/myapp.wsgi
 ```
 
-Restart Apache
-
 ## Install and configure PostgreSQL
  1. Install PostgreSQL
  1. Login `psql` as `postgres`
@@ -129,7 +127,6 @@ Restart Apache
  1. Connect to the database: `\c itemcatalog`.
  1. Revoke all rights from public: `REVOKE ALL ON SCHEMA public FROM public;`.
  1. Lock down the permissions to only let catalog role perform CRUD action on tables: `GRANT ALL ON SCHEMA public TO catalog;`.
- 1. Log out from PostgreSQL: `\q`. Then return to the grader user: $ exit.
 
 Inside the Flask application, connection string is changed to 
 ```
@@ -145,29 +142,38 @@ host    all             all             ::1/128                 md5
  ```
 
 ## Install git, clone and set up your Catalog App project
-Install python-dev, python-pip
+Install git, python-dev, python-pip
 ```
-sudo apt-get install python-dev, python-pip
+sudo apt-get install git, python-dev, python-pip
 ```
+
 Clone the Item Catalog project from git and copy necessary files to `var/www/html`
 ```
 git clone https://github.com/daroldso/fullstack-nanodegree-vm.git
 sudo cp -r ~/vagrant/catalog/* /var/www/html
 ```
+
 Change files owner to grader
 ```
 sudo chown -R grader:grader /var/www/html/*
 ```
+
 Install virtual environment to keep the applications isolated from main system.
 ```
 sudo pip install virtualenv
+```
+
+Activate virtual environment
+```
 sudo virtualenv venv
 source venv/bin/activate 
 ```
+
 Install Flask inside virtual environment
 ```
 sudo pip install Flask
 ```
+
 Edit `sudo nano /etc/apache2/sites-available/000-default.conf` and add below code inside `<VirtualHost *:80></VirtualHost>`
 ```
 WSGIScriptAlias / /var/www/html/myapp.wsgi
